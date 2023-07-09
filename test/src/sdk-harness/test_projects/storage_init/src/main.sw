@@ -83,7 +83,7 @@ storage {
         int32: 6,
     }),
     e2: E = E::A(777),
-    string: str[40] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    string: str = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 }
 
 abi ExperimentalStorageInitTest {
@@ -124,7 +124,7 @@ impl ExperimentalStorageInitTest for Contract {
             int32: 6,
         });
         let e2: E = E::A(777);
-        let string: str[40] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        let string: str = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
         assert(storage.x.read() == x);
         assert(storage.y.read() == y);

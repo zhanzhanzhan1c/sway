@@ -7,7 +7,7 @@
         "typeArguments": null
       },
       "name": "C0",
-      "offset": 7564
+      "offset": 4612
     },
     {
       "configurableType": {
@@ -16,7 +16,7 @@
         "typeArguments": null
       },
       "name": "C1",
-      "offset": 7572
+      "offset": 4620
     },
     {
       "configurableType": {
@@ -25,7 +25,7 @@
         "typeArguments": null
       },
       "name": "C2",
-      "offset": 7588
+      "offset": 4636
     },
     {
       "configurableType": {
@@ -34,7 +34,7 @@
         "typeArguments": []
       },
       "name": "C3",
-      "offset": 7620
+      "offset": 4668
     },
     {
       "configurableType": {
@@ -43,7 +43,7 @@
         "typeArguments": []
       },
       "name": "C4",
-      "offset": 7636
+      "offset": 4684
     },
     {
       "configurableType": {
@@ -52,7 +52,7 @@
         "typeArguments": []
       },
       "name": "C5",
-      "offset": 7652
+      "offset": 4700
     },
     {
       "configurableType": {
@@ -61,7 +61,7 @@
         "typeArguments": null
       },
       "name": "C6",
-      "offset": 7668
+      "offset": 4716
     },
     {
       "configurableType": {
@@ -70,7 +70,7 @@
         "typeArguments": null
       },
       "name": "C7",
-      "offset": 7684
+      "offset": 4732
     },
     {
       "configurableType": {
@@ -79,7 +79,7 @@
         "typeArguments": null
       },
       "name": "C9",
-      "offset": 7732
+      "offset": 4780
     }
   ],
   "functions": [
@@ -146,7 +146,7 @@
     },
     {
       "components": null,
-      "type": "str[4]",
+      "type": "str",
       "typeId": 5,
       "typeParameters": null
     },

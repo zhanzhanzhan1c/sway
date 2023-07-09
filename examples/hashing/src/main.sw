@@ -55,7 +55,7 @@ enum Location {
 }
 
 struct Person {
-    name: str[4],
+    name: str,
     age: u64,
     alive: bool,
     location: Location,

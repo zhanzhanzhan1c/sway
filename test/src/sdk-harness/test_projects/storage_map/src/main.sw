@@ -48,25 +48,25 @@ impl Hash for str[33] {
 }
 
 storage {
-    map1: StorageMap<u64, bool> = StorageMap::<u64, bool> {},
-    map2: StorageMap<u64, u8> = StorageMap::<u64, u8> {},
-    map3: StorageMap<u64, u16> = StorageMap::<u64, u16> {},
-    map4: StorageMap<u64, u32> = StorageMap::<u64, u32> {},
-    map5: StorageMap<u64, u64> = StorageMap::<u64, u64> {},
-    map6: StorageMap<u64, (b256, u8, bool)> = StorageMap::<u64, (b256, u8, bool)> {},
-    map7: StorageMap<u64, Struct> = StorageMap::<u64, Struct> {},
-    map8: StorageMap<u64, Enum> = StorageMap::<u64, Enum> {},
-    map9: StorageMap<u64, str[33]> = StorageMap::<u64, str[33]> {},
-    map10: StorageMap<u64, [b256; 3]> = StorageMap::<u64, [b256; 3]> {},
-    map11: StorageMap<bool, u64> = StorageMap::<bool, u64> {},
-    map12: StorageMap<u8, u64> = StorageMap::<u8, u64> {},
-    map13: StorageMap<u16, u64> = StorageMap::<u16, u64> {},
-    map14: StorageMap<u32, u64> = StorageMap::<u32, u64> {},
-    map15: StorageMap<(b256, u8, bool), u64> = StorageMap::<(b256, u8, bool), u64> {},
-    map16: StorageMap<Struct, u64> = StorageMap::<Struct, u64> {},
-    map17: StorageMap<Enum, u64> = StorageMap::<Enum, u64> {},
-    map18: StorageMap<str[33], u64> = StorageMap::<str[33], u64> {},
-    map19: StorageMap<[b256; 3], u64> = StorageMap::<[b256; 3], u64> {},
+    map1: StorageMap<u64, bool> = StorageMap {},
+    map2: StorageMap<u64, u8> = StorageMap {},
+    map3: StorageMap<u64, u16> = StorageMap {},
+    map4: StorageMap<u64, u32> = StorageMap {},
+    map5: StorageMap<u64, u64> = StorageMap {},
+    map6: StorageMap<u64, (b256, u8, bool)> = StorageMap {},
+    map7: StorageMap<u64, Struct> = StorageMap {},
+    map8: StorageMap<u64, Enum> = StorageMap {},
+    map9: StorageMap<u64, str> = StorageMap {},
+    map10: StorageMap<u64, [b256; 3]> = StorageMap {},
+    map11: StorageMap<bool, u64> = StorageMap {},
+    map12: StorageMap<u8, u64> = StorageMap {},
+    map13: StorageMap<u16, u64> = StorageMap {},
+    map14: StorageMap<u32, u64> = StorageMap {},
+    map15: StorageMap<(b256, u8, bool), u64> = StorageMap {},
+    map16: StorageMap<Struct, u64> = StorageMap {},
+    map17: StorageMap<Enum, u64> = StorageMap {},
+    map18: StorageMap<str, u64> = StorageMap {},
+    map19: StorageMap<[b256; 3], u64> = StorageMap {},
 }
 
 abi StorageMapTest {
@@ -127,9 +127,9 @@ abi StorageMapTest {
     fn remove_from_u64_to_enum_map(key: u64) -> bool;
 
     #[storage(read, write)]
-    fn insert_into_u64_to_str_map(key: u64, value: str[33]);
+    fn insert_into_u64_to_str_map(key: u64, value: str);
     #[storage(read)]
-    fn get_from_u64_to_str_map(key: u64) -> Option<str[33]>;
+    fn get_from_u64_to_str_map(key: u64) -> Option<str>;
     #[storage(write)]
     fn remove_from_u64_to_str_map(key: u64) -> bool;
 
@@ -190,11 +190,11 @@ abi StorageMapTest {
     fn remove_from_enum_to_u64_map(key: Enum) -> bool;
 
     #[storage(read, write)]
-    fn insert_into_str_to_u64_map(key: str[33], value: u64);
+    fn insert_into_str_to_u64_map(key: str, value: u64);
     #[storage(read)]
-    fn get_from_str_to_u64_map(key: str[33]) -> Option<u64>;
+    fn get_from_str_to_u64_map(key: str) -> Option<u64>;
     #[storage(write)]
-    fn remove_from_str_to_u64_map(key: str[33]) -> bool;
+    fn remove_from_str_to_u64_map(key: str) -> bool;
 
     #[storage(read, write)]
     fn insert_into_array_to_u64_map(key: [b256; 3], value: u64);
@@ -341,12 +341,12 @@ impl StorageMapTest for Contract {
     }
 
     #[storage(read, write)]
-    fn insert_into_u64_to_str_map(key: u64, value: str[33]) {
+    fn insert_into_u64_to_str_map(key: u64, value: str) {
         storage.map9.insert(key, value);
     }
 
     #[storage(read)]
-    fn get_from_u64_to_str_map(key: u64) -> Option<str[33]> {
+    fn get_from_u64_to_str_map(key: u64) -> Option<str> {
         storage.map9.get(key).try_read()
     }
 
@@ -476,17 +476,17 @@ impl StorageMapTest for Contract {
     }
 
     #[storage(read, write)]
-    fn insert_into_str_to_u64_map(key: str[33], value: u64) {
+    fn insert_into_str_to_u64_map(key: str, value: u64) {
         storage.map18.insert(key, value);
     }
 
     #[storage(read)]
-    fn get_from_str_to_u64_map(key: str[33]) -> Option<u64> {
+    fn get_from_str_to_u64_map(key: str) -> Option<u64> {
         storage.map18.get(key).try_read()
     }
 
     #[storage(write)]
-    fn remove_from_str_to_u64_map(key: str[33]) -> bool {
+    fn remove_from_str_to_u64_map(key: str) -> bool {
         storage.map18.remove(key)
     }
 

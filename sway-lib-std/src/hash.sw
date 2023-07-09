@@ -1,42 +1,57 @@
 //! Utility functions for cryptographic hashing.
 library;
 
-use ::bytes::*;
-
-pub struct Hasher {
-    bytes: Bytes
+/// Returns the `SHA-2-256` hash of `param`.
+pub fn sha256<T>(param: T) -> b256 {
+    let mut result_buffer: b256 = b256::min();
+    if !__is_reference_type::<T>() {
+        asm(buffer, ptr: param, eight_bytes: 8, hash: result_buffer) {
+            move buffer sp; // Make `buffer` point to the current top of the stack
+            cfei i8; // Grow stack by 1 word
+            sw buffer ptr i0; // Save value in register at "ptr" to memory at "buffer"
+            s256 hash buffer eight_bytes; // Hash the next eight bytes starting from "buffer" into "hash"
+            cfsi i8; // Shrink stack by 1 word
+            hash: b256 // Return
+        }
+    } else {
+        if __is_str_type::<T>() {
+            let s = asm(p: param) { p: str };
+            asm(hash: result_buffer, ptr: s.as_ptr(), bytes: s.len()) {
+                s256 hash ptr bytes; // Hash the next "size" number of bytes starting from "ptr" into "hash"
+                hash: b256 // Return
+            }
+        } else {
+            asm(hash: result_buffer, ptr: param, bytes: __size_of::<T>()) {
+                s256 hash ptr bytes; // Hash the next "size" number of bytes starting from "ptr" into "hash"
+                hash: b256 // Return
+            }
+        }
+    }
 }
 
-impl Hasher {
-    pub fn new() -> Self {
-        Self { bytes: Bytes::new() }
-    }
-
-    /// Writes some data into this `Hasher`.
-    pub fn write(ref mut self, bytes: Bytes) {
-        self.bytes.append(bytes);
-    }
-
-    pub fn sha256(self) -> b256 {
-        self.bytes.sha256()
-    }
-
-    pub fn keccak256(self) -> b256 {
-        self.bytes.keccak256()
-    }
-}
-
-impl Hasher {
-    /// Writes a single `str` into this hasher.
-    pub fn write_str<S>(ref mut self, s: S) {
-        __check_str_type::<S>();
-        let str_size = __size_of_str::<S>();
-        let str_ptr = __addr_of(s);
-        let mut bytes = Bytes::with_capacity(str_size);
-        bytes.len = str_size;
-
-        str_ptr.copy_bytes_to(bytes.buf.ptr(), str_size);
-        self.write(bytes);
+/// Returns the `KECCAK-256` hash of `param`.
+pub fn keccak256<T>(param: T) -> b256 {
+    let mut result_buffer: b256 = b256::min();
+    if !__is_reference_type::<T>() {
+        asm(buffer, ptr: param, eight_bytes: 8, hash: result_buffer) {
+            move buffer sp; // Make `buffer` point to the current top of the stack
+            cfei i8; // Grow stack by 1 word
+            sw buffer ptr i0; // Save value in register at "ptr" to memory at "buffer"
+            k256 hash buffer eight_bytes; // Hash the next eight bytes starting from "buffer" into "hash"
+            cfsi i8; // Shrink stack by 1 word
+            hash: b256 // Return
+        }
+    } else {
+        let size = if __is_str_type::<T>() {
+            let s = asm(p: param) { p: str };
+            s.len()
+        } else {
+            __size_of::<T>()
+        };
+        asm(hash: result_buffer, ptr: param, bytes: size) {
+            k256 hash ptr bytes; // Hash the next "size" number of bytes starting from "ptr" into "hash"
+            hash: b256 // Return
+        }
     }
 }
 

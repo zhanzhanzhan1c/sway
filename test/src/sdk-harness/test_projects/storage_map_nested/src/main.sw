@@ -43,9 +43,9 @@ impl Hash for str[4] {
 }
 
 storage {
-    nested_map_1: StorageMap<u64, StorageMap<u64, StorageMap<u64, u64>>> = StorageMap::<u64, StorageMap<u64, StorageMap<u64, u64>>> {},
-    nested_map_2: StorageMap<(u64, u64), StorageMap<str[4], StorageMap<u64, M>>> = StorageMap::<(u64, u64), StorageMap<str[4], StorageMap<u64, M>>> {},
-    nested_map_3: StorageMap<u64, StorageMap<M, StorageMap<u64, E>>> = StorageMap::<u64, StorageMap<M, StorageMap<u64, E>>> {},
+    nested_map_1: StorageMap<u64, StorageMap<u64, StorageMap<u64, u64>>> = StorageMap {},
+    nested_map_2: StorageMap<(u64, u64), StorageMap<str, StorageMap<u64, M>>> = StorageMap {},
+    nested_map_3: StorageMap<u64, StorageMap<M, StorageMap<u64, E>>> = StorageMap {},
 }
 
 abi ExperimentalStorageTest {

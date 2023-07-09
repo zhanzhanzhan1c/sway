@@ -43,15 +43,3 @@ impl Eq for [u64; 3] {
         self[0] == other[0] && self[1] == other[1] && self[2] == other[2]
     }
 }
-
-fn sha256_str4(value: str[4]) -> b256 {
-    let mut hasher = Hasher::new();
-    hasher.write_str(value);
-    hasher.sha256()
-}
-
-impl Eq for str[4] {
-    fn eq(self, other: Self) -> bool {
-        sha256_str4(self) == sha256_str4(other)
-    }
-}

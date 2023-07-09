@@ -41,8 +41,8 @@ impl<K, V> StorageKey<MyStorageMap<K, V>> where K: Hash {
 }
 
 storage {
-    map1: MyStorageMap<u64, bool> = MyStorageMap::<u64, bool> {},
-    map2: MyStorageMap<u64, str[4]> = MyStorageMap::<u64, str[4]> {},
+    map1: MyStorageMap<u64, bool> = MyStorageMap {},
+    map2: MyStorageMap<u64, str> = MyStorageMap {},
 }
 
 abi TestAbi {

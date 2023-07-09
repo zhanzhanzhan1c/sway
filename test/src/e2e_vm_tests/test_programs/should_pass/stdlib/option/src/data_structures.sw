@@ -66,24 +66,6 @@ impl Eq for [u64; 3] {
     }
 }
 
-impl Eq for str[4] {
-    fn eq(self, other: Self) -> bool {
-        sha256_str(self) == sha256_str(other)
-    }
-}
-
-impl Hash for str[4] {
-    fn hash(self, ref mut state: Hasher) {
-        state.write_str(self);
-    }
-}
-
-fn sha256_str<T>(s: T) -> b256 {
-    let mut hasher = Hasher::new();
-    hasher.write_str(s);
-    hasher.sha256()
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // Error 
 /////////////////////////////////////////////////////////////////////////////
@@ -97,7 +79,7 @@ pub enum Error {
     EnumError: MyEnum,
     TupleError: (u64, u64),
     ArrayError: [u64; 3],
-    StringError: str[4],
+    StringError: str,
 }
 
 impl Eq for Error {
