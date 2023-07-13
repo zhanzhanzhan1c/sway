@@ -25,6 +25,7 @@ use sway_ir::{Context, *};
 use sway_types::{
     constants,
     ident::Ident,
+    integer_bits::IntegerBits,
     span::{Span, Spanned},
     state::StateIndex,
     Named,
@@ -273,6 +274,14 @@ impl<'eng> FnCompiler<'eng> {
     ) -> Result<Value, CompileError> {
         let span_md_idx = md_mgr.span_to_md(context, &ast_expr.span);
         match &ast_expr.expression {
+            ty::TyExpressionVariant::Literal(Literal::Numeric(n)) => {
+                let implied_lit = match self.engines.te().get(ast_expr.return_type) {
+                    TypeInfo::UnsignedInteger(IntegerBits::Eight) => Literal::U8(*n as u8),
+                    _ => Literal::U64(*n),
+                };
+                Ok(convert_literal_to_value(context, &implied_lit)
+                    .add_metadatum(context, span_md_idx))
+            }
             ty::TyExpressionVariant::Literal(l) => {
                 Ok(convert_literal_to_value(context, l).add_metadatum(context, span_md_idx))
             }
@@ -523,11 +532,8 @@ impl<'eng> FnCompiler<'eng> {
                     &exp.span,
                 )?;
                 self.compile_expression_to_value(context, md_mgr, exp)?;
-                Ok(Constant::get_uint(
-                    context,
-                    64,
-                    ir_type_size_in_bytes(context, &ir_type),
-                ))
+                let size = ir_type_size_in_bytes(context, &ir_type);
+                Ok(Constant::get_uint(context, 64, size))
             }
             Intrinsic::SizeOfType => {
                 let targ = type_arguments[0].clone();
@@ -653,7 +659,11 @@ impl<'eng> FnCompiler<'eng> {
                     .get_unaliased(target_type.type_id)
                     .is_copy_type()
                 {
-                    Ok(gtf_reg)
+                    Ok(self
+                        .current_block
+                        .ins(context)
+                        .bitcast(gtf_reg, target_ir_type)
+                        .add_metadatum(context, span_md_idx))
                 } else {
                     let ptr_ty = Type::new_ptr(context, target_ir_type);
                     Ok(self
@@ -2144,12 +2154,13 @@ impl<'eng> FnCompiler<'eng> {
             }
             insert_values.push(insert_val);
 
-            field_types.push(convert_resolved_typeid_no_span(
+            let field_type = convert_resolved_typeid_no_span(
                 self.engines.te(),
                 self.engines.de(),
                 context,
                 &struct_field.value.return_type,
-            )?);
+            )?;
+            field_types.push(field_type);
         }
 
         // Create the struct.
