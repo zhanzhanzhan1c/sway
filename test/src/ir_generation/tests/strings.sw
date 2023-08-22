@@ -1,28 +1,18 @@
 script;
 
 fn main() -> u64 {
-    let s = "foo \t bar";
-    f(s, s)
+    0u8.as_u64()
 }
 
 fn f(a: str, b: str) -> u64 {
     // There are 2 strings.
-    2
+    a.len()
 }
 
-// This test is pretty broken, but only because our string support is pretty broken.  So this is
-// really just snapshotting the current situation, but string support in the compiler needs to
-// improve.
+// ::check-ir::
+// check: v0 = const
 
-// check: local string<10> s
 
-// check: $(s_var=$VAL) = get_local ptr string<10>, s
-// check: $(str_lit=$VAL) = const string<10> "foo \x5ct bar"
-// check: store $str_lit to $s_var
-
-// check: $(l_var=$VAL) = get_local ptr string<10>, s
-// check: $(l_val=$VAL) = load $l_var
-// check: $(r_var=$VAL) = get_local ptr string<10>, s
-// check: $(r_val=$VAL) = load $r_var
-// check: $(res=$VAL) = call $ID($l_val, $r_val)
-// check: ret u64 $res
+// ::check-ir-optimized::
+// pass: o1
+// check: v0 = const

@@ -40,9 +40,6 @@ impl ty::TyIntrinsicFunctionKind {
             Intrinsic::IsStrType => {
                 type_check_is_reference_type(handler, ctx, kind, arguments, type_arguments, span)
             }
-            Intrinsic::CheckStrType => {
-                type_check_check_str_type(handler, ctx, kind, arguments, type_arguments, span)
-            }
             Intrinsic::Eq | Intrinsic::Gt | Intrinsic::Lt => {
                 type_check_cmp(handler, ctx, kind, arguments, span)
             }
