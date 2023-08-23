@@ -230,7 +230,10 @@ impl Parse for Expression {
                 struct_expression.parse(ctx);
             }
             ExpressionKind::CodeBlock(code_block) => {
-                code_block.contents.par_iter().for_each(|node| node.parse(ctx));
+                code_block
+                    .contents
+                    .par_iter()
+                    .for_each(|node| node.parse(ctx));
             }
             ExpressionKind::If(IfExpression {
                 condition,
@@ -729,10 +732,12 @@ impl Parse for TraitDeclaration {
                 SymbolKind::Trait,
             ),
         );
-        self.interface_surface.par_iter().for_each(|item| match item {
-            TraitItem::TraitFn(trait_fn) => trait_fn.parse(ctx),
-            TraitItem::Constant(const_decl) => const_decl.parse(ctx),
-        });
+        self.interface_surface
+            .par_iter()
+            .for_each(|item| match item {
+                TraitItem::TraitFn(trait_fn) => trait_fn.parse(ctx),
+                TraitItem::Constant(const_decl) => const_decl.parse(ctx),
+            });
         self.methods.par_iter().for_each(|func_dec| {
             func_dec.parse(ctx);
         });
@@ -845,10 +850,12 @@ impl Parse for AbiDeclaration {
                 SymbolKind::Trait,
             ),
         );
-        self.interface_surface.par_iter().for_each(|item| match item {
-            TraitItem::TraitFn(trait_fn) => trait_fn.parse(ctx),
-            TraitItem::Constant(const_decl) => const_decl.parse(ctx),
-        });
+        self.interface_surface
+            .par_iter()
+            .for_each(|item| match item {
+                TraitItem::TraitFn(trait_fn) => trait_fn.parse(ctx),
+                TraitItem::Constant(const_decl) => const_decl.parse(ctx),
+            });
         self.supertraits.par_iter().for_each(|supertrait| {
             supertrait.parse(ctx);
         });
