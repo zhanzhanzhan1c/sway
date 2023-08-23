@@ -311,10 +311,7 @@ impl TypeCheckTypeBinding<ty::TyStructDecl> for TypeBinding<CallPath> {
         )?;
         // Insert the new copy into the declaration engine.
         let new_struct_ref = ctx.engines.de().insert(new_copy);
-        // Take any trait items that apply to the old type and copy them to the new type.
         let type_id = type_engine.insert(engines, TypeInfo::Struct(new_struct_ref.clone()));
-        ctx.namespace
-            .insert_trait_implementation_for_type(engines, type_id);
         Ok((new_struct_ref, Some(type_id), None))
     }
 }
